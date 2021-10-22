@@ -8,7 +8,7 @@ public class IndiaCensusAnalyzer {
     @CsvBindByName(column = "Population",required = true)
     public String population;
 
-    @CsvBindByName(column = "AreaInSqKm",required = true)
+    @CsvBindByName(column = "AreaInSqKm")
     public String areaKm;
 
     @CsvBindByName(column = "DensityPerSqKm",required = true)
@@ -21,6 +21,7 @@ public class IndiaCensusAnalyzer {
                 ", Population='" + population + '\'' +
                 ", AreaInSqKm='" + areaKm + '\'' +
                 ", DensityPerSqKm='" + densityKm + '\'' +
-                '}';
+                '}' + "\n" ;
     }
+
 }
