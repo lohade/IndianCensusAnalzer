@@ -12,7 +12,7 @@ public class MainTest {
     }
 
     String INDIA_CENSUS_PATH="C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\Census.csv";
-    String STATE_DATA_PATH="C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\IndiaStateCode.txt";
+    String STATE_DATA_PATH="C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\IndiaStateCode.csv";
 
 
     @Test
@@ -46,8 +46,29 @@ public class MainTest {
                 censusAnalyzer.censusData(path, "");
             }
         } catch (CensusAnalyzerException e) {
-            throw new CensusAnalyzerException("give proper file Extension");
+            throw new CensusAnalyzerException("give proper file Extension",e.getCause(), CensusAnalyzerException.ExceptionType.File_EXTENSION_INCORRECT);
             //Assert.assertEquals(CensusAnalyzerException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
+
+        }
+    }
+    @Test
+    public void checkFileStateCode_returnTrue_whenEqualData(){
+        try {
+            CensusAnalyzer censusAnalyzer = new CensusAnalyzer();
+            int num = censusAnalyzer.stateData(STATE_DATA_PATH);
+            Assert.assertEquals(37, num);
+        }catch (CensusAnalyzerException e){
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void checkStateCodeFile_returnException_whenTypeIncorrect() throws CensusAnalyzerException {
+
+        try {
+            censusAnalyzer.stateData("C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\IndiaStateCode.txt");
+        }catch (CensusAnalyzerException e){
+            throw new CensusAnalyzerException(CensusAnalyzerException.ExceptionType.File_EXTENSION_INCORRECT, e.getMessage());
+            //Assert.assertEquals(CensusAnalyzerException.ExceptionType.File_EXTENSION_INCORRECT,"File_EXTENSION_INCORRECT");
 
         }
     }
