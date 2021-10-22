@@ -1,15 +1,9 @@
-
 public class CensusAnalyzerException extends Exception{
-
-
-
     public enum ExceptionType{
         CENSUS_FILE_PROBLEM,
         File_EXTENSION_INCORRECT
     }
-
     public ExceptionType type;
-
 
     public CensusAnalyzerException(String message,ExceptionType type){
         super(message);

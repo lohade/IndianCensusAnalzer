@@ -1,4 +1,5 @@
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
@@ -8,6 +9,14 @@ public class MainTest {
 
     String INDIA_CENSUS_PATH="C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\Census.csv";
     String STATE_DATA_PATH="C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\IndiaStateCode.csv";
+
+    CensusAnalyzer censusAnalyzer;
+    @Before
+    public void MainTest(){
+        censusAnalyzer=new CensusAnalyzer();
+    }
+
+
 
     @Test
     public void checkFile_returnTrue_whenCountEqual(){
@@ -21,15 +30,15 @@ public class MainTest {
         }
     }
     @Test
-    public void ifIncorrectFileType_returnException() throws CensusAnalyzerException {
+    public void ifIncorrectFileType_returnException()  {
+
         try {
             CensusAnalyzer censusAnalyzer=new CensusAnalyzer();
             ExpectedException exception=ExpectedException.none();
             exception.expect(CensusAnalyzerException.class);
             censusAnalyzer.censusData(INDIA_CENSUS_PATH);
         }catch (CensusAnalyzerException e){
-            throw new CensusAnalyzerException(e.type,"file not found");
-            //Assert.assertEquals(CensusAnalyzerException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
+            Assert.assertEquals(CensusAnalyzerException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
         }
     }
 
@@ -55,6 +64,30 @@ public class MainTest {
             Assert.assertEquals(37, num);
         }catch (CensusAnalyzerException e){
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void checkFilePath_whenIncorrect_returnException() throws CensusAnalyzerException{
+        try {
+            Assert.assertEquals(37,censusAnalyzer.stateCodeData("C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\IndiaStateCode.txt"));
+        }catch (CensusAnalyzerException e){
+            System.out.println(e.type);
+            //System.out.println(e.getMessage());
+            //Assert.assertEquals(e.type,CensusAnalyzerException.ExceptionType.File_EXTENSION_INCORRECT);
+        }
+    }
+
+    @Test
+    public void whenEnterCorrectFile_returnException_ifExtensionNotMatch() throws CensusAnalyzerException {
+        String path="C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\IndiaStateCode.txt";
+        try{
+            if(!path.contains("csv")){
+                CensusAnalyzer censusAnalyzer=new CensusAnalyzer();
+                censusAnalyzer.censusData(path);
+            }
+        }catch (CensusAnalyzerException e){
+            throw new CensusAnalyzerException("please check Extension", CensusAnalyzerException.ExceptionType.File_EXTENSION_INCORRECT);
         }
     }
 }
