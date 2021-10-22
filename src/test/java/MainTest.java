@@ -95,7 +95,18 @@ public class MainTest {
     public void when_CorrectStateCensusCSVFile_But_Header_Incorrect_Should_Return_False() throws IOException {
 
         try {
-            Assert.assertEquals(29, censusAnalyzer.censusData("C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\Census.csv",""));
+            Assert.assertEquals(29, censusAnalyzer.censusData("C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\Census.csv","com.example"));
+        } catch (CensusAnalyzerException e) {
+            System.out.println(e.getMessage());
+            Assert.assertEquals(CensusAnalyzerException.ExceptionType.HEADER_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void when_CorrectStateCodeCSVFile_But_Header_Incorrect_Should_Return_False() throws IOException {
+
+        try {
+            Assert.assertEquals(37, censusAnalyzer.stateCodeData("C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\IndiaStateCode.csv"));
         } catch (CensusAnalyzerException e) {
             System.out.println(e.getMessage());
             Assert.assertEquals(CensusAnalyzerException.ExceptionType.HEADER_PROBLEM, e.type);
