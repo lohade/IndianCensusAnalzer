@@ -13,7 +13,7 @@ public class CensusAnalyzer{
     List<IndiaCensusAnalyzer> censusAnalyzerList=new ArrayList<>();
     List<StateCodeData> codeDataList=new ArrayList<>();
 
-    public int censusData(String path) throws CensusAnalyzerException {
+    public int censusData(String path,String method) throws CensusAnalyzerException {
         try {
             Reader reader= Files.newBufferedReader(Paths.get(path));
             CsvToBeanBuilder<IndiaCensusAnalyzer> csvToBeanBuilder=new CsvToBeanBuilder<>(reader);

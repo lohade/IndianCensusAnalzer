@@ -22,7 +22,7 @@ public class MainTest {
     public void checkFile_returnTrue_whenCountEqual(){
         try {
             CensusAnalyzer censusAnalyzer=new CensusAnalyzer();
-            int numofrecords=censusAnalyzer.censusData(INDIA_CENSUS_PATH);
+            int numofrecords=censusAnalyzer.censusData(INDIA_CENSUS_PATH,"");
             Assert.assertEquals(29,numofrecords);
 
         }catch (CensusAnalyzerException e){
@@ -36,7 +36,7 @@ public class MainTest {
             CensusAnalyzer censusAnalyzer=new CensusAnalyzer();
             ExpectedException exception=ExpectedException.none();
             exception.expect(CensusAnalyzerException.class);
-            censusAnalyzer.censusData(INDIA_CENSUS_PATH);
+            censusAnalyzer.censusData(INDIA_CENSUS_PATH,"");
         }catch (CensusAnalyzerException e){
             Assert.assertEquals(CensusAnalyzerException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
         }
@@ -48,7 +48,7 @@ public class MainTest {
         try {
             if (!path1.contains("csv")) {
                 CensusAnalyzer censusAnalyzer=new CensusAnalyzer();
-                censusAnalyzer.censusData(path1);
+                censusAnalyzer.censusData(path1,"");
             }
         }catch (CensusAnalyzerException e){
             throw new CensusAnalyzerException(e.type,"File Extension");
@@ -84,10 +84,21 @@ public class MainTest {
         try{
             if(!path.contains("csv")){
                 CensusAnalyzer censusAnalyzer=new CensusAnalyzer();
-                censusAnalyzer.censusData(path);
+                censusAnalyzer.censusData(path,"");
             }
         }catch (CensusAnalyzerException e){
             throw new CensusAnalyzerException("please check Extension", CensusAnalyzerException.ExceptionType.File_EXTENSION_INCORRECT);
+        }
+    }
+
+    @Test
+    public void when_CorrectStateCensusCSVFile_But_Header_Incorrect_Should_Return_False() throws IOException {
+
+        try {
+            Assert.assertEquals(29, censusAnalyzer.censusData("C:\\Users\\Arti\\IdeaProjects\\IndianCensus\\src\\main\\resources\\Census.csv",""));
+        } catch (CensusAnalyzerException e) {
+            System.out.println(e.getMessage());
+            Assert.assertEquals(CensusAnalyzerException.ExceptionType.HEADER_PROBLEM, e.type);
         }
     }
 }
